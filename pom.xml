@@ -15,9 +15,11 @@
     </parent>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <core.version>1.0</core.version>
+        <admin.version>1.0</admin.version>
     </properties>
 
     <modules>
@@ -25,6 +27,21 @@
         <module>admin</module>
         <module>web</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>core</artifactId>
+                <version>${core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>admin</artifactId>
+                <version>${admin.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -67,35 +84,9 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>com.github.wvengen</groupId>
+                    <groupId>org.example</groupId>
                     <artifactId>proguard-maven-plugin</artifactId>
-                    <version>2.6.1</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals><goal>proguard</goal></goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <injar>${build.finalName}.war</injar>
-                        <outjar>${build.finalName}-pg</outjar>
-                        <outputDirectory>${project.build.directory}</outputDirectory>
-                        <proguardVersion>7.6.0</proguardVersion>
-                        <attach>true</attach>
-                        <attachArtifactClassifier>pg</attachArtifactClassifier>
-                        <generateTemporaryConfigurationFile>true</generateTemporaryConfigurationFile>
-                        <proguardInclude>${project.basedir}/proguard.conf</proguardInclude>
-                        <libs>
-                            <lib>${java.home}/lib/rt.jar</lib>
-                        </libs>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.guardsquare</groupId>
-                            <artifactId>proguard-base</artifactId>
-                            <version>7.6.0</version>
-                        </dependency>
-                    </dependencies>
+                    <version>1.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -107,15 +98,11 @@
                 <configuration>
                     <showWarnings>true</showWarnings>
                     <encoding>UTF-8</encoding>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -138,41 +125,8 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib
-                            </outputDirectory>
-                            <includeScope>system</includeScope>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
+
         <resources>
             <resource>
                 <directory>src/main/webapp</directory>

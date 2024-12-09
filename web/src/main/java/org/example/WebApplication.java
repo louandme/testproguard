@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.util.TestUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,8 +16,6 @@ public class WebApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        boolean l = TestUtil.test(2);
-        System.out.println(l);
         return builder.sources(WebApplication.class);
     }
 
