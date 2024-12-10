@@ -87,9 +87,18 @@
                         </goals>
                         <configuration>
                             <target>
-                                <war warfile="${project.build.directory}/${project.build.finalName}.war" needxmlfile="false" update="true">
-                                    <lib file="${project.build.directory}/${project.build.finalName}-assembly-pg.jar" />
+                                <mkdir dir="${project.build.directory}/temp" />
+                                <unwar dest="${project.build.directory}/temp" src="${project.build.directory}/${project.build.finalName}.war" />
+                                <copy todir="${project.build.directory}/temp/WEB-INF/lib"
+                                      file="${project.build.directory}/${project.build.finalName}-assembly-pg.jar" />
+                                <delete file="${project.build.directory}/${project.build.finalName}.war" />
+                                <delete dir="${project.build.directory}/temp/WEB-INF/classes" />
+                                <delete file="${project.build.directory}/temp/WEB-INF/lib/admin-1.0.jar" />
+                                <delete file="${project.build.directory}/temp/WEB-INF/lib/core-1.0.jar" />
+                                <war warfile="${project.build.directory}/${project.build.finalName}.war" needxmlfile="false">
+                                    <fileset dir="${project.build.directory}/temp" />
                                 </war>
+                                <delete dir="${project.build.directory}/temp" />
                             </target>
                         </configuration>
                     </execution>
