@@ -74,6 +74,27 @@
                     </libs>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <war warfile="${project.build.directory}/${project.build.finalName}.war" needxmlfile="false" update="true">
+                                    <lib file="${project.build.directory}/${project.build.finalName}-assembly-pg.jar" />
+                                </war>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
